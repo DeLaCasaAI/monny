@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
 interface LanguageContextProps {
@@ -62,6 +63,11 @@ const translations = {
     'action.import': 'Import',
     'action.edit': 'Edit',
     'action.duplicate': 'Duplicate',
+    'action.copy': 'Copy',
+    'action.download': 'Download',
+    'export.title': 'Export Budget',
+    'export.copied': 'Copied to clipboard',
+    'export.copiedDescription': 'Budget data has been copied to your clipboard',
     'menu.export': 'Export Data',
     'menu.import': 'Import Data',
     'menu.language': 'Switch Language',
@@ -116,6 +122,11 @@ const translations = {
     'action.import': 'Importar',
     'action.edit': 'Editar',
     'action.duplicate': 'Duplicar',
+    'action.copy': 'Copiar',
+    'action.download': 'Descargar',
+    'export.title': 'Exportar Presupuesto',
+    'export.copied': 'Copiado al portapapeles',
+    'export.copiedDescription': 'Los datos del presupuesto han sido copiados al portapapeles',
     'menu.export': 'Exportar Datos',
     'menu.import': 'Importar Datos',
     'menu.language': 'Cambiar Idioma',

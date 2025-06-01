@@ -4,6 +4,7 @@ import { Copy, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Budget } from '@/types/budget';
+import { ExportDialog } from './ExportDialog';
 
 interface BudgetActionButtonsProps {
   budget: Budget;
@@ -35,9 +36,11 @@ export const BudgetActionButtons: React.FC<BudgetActionButtonsProps> = ({ budget
 
   return (
     <div className="flex gap-4 mt-8">
-      <Button variant="outline" className="flex-1">
-        {t('action.export')}
-      </Button>
+      <ExportDialog budget={budget}>
+        <Button variant="outline" className="flex-1">
+          {t('action.export')}
+        </Button>
+      </ExportDialog>
       <Button 
         variant="outline" 
         className="flex-1 flex items-center gap-2"

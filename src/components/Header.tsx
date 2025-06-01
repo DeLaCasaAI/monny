@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Calculator } from 'lucide-react';
-import { LanguageSwitcher } from './LanguageSwitcher';
+import { HamburgerMenu } from './HamburgerMenu';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export const Header: React.FC = () => {
@@ -20,7 +20,7 @@ export const Header: React.FC = () => {
               <p className="text-sm text-gray-500">{t('app.subtitle')}</p>
             </div>
           </div>
-          <LanguageSwitcher />
+          <HamburgerMenu />
         </div>
       </div>
     </header>

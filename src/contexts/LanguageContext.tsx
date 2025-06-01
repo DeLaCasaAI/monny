@@ -18,17 +18,28 @@ const translations = {
     'app.subtitle': 'Budget Planning Tool',
     'language.switch': 'Español',
     
+    // Menu
+    'menu.export': 'Export Data',
+    'menu.import': 'Import Data',
+    'menu.language': 'Switch to Español',
+    
     // Home Page
     'home.welcome': 'Welcome to Monny',
     'home.description': 'Simple budgeting and planning tool for individuals and small businesses',
     'home.create.budget': 'Create New Budget',
     'home.import.data': 'Import Data',
     'home.export.data': 'Export Data',
+    'home.no.budgets': 'No budgets yet',
+    'home.no.budgets.description': 'Create your first budget to get started',
     
     // Budget Types
     'budget.type.business': 'Business Monthly Budget',
     'budget.type.trip': 'Trip Budget',
+    'budget.type.scratch': 'Start from Scratch',
     'budget.select.type': 'Select Budget Type',
+    'budget.type.business.description': 'Plan your monthly business expenses and revenue',
+    'budget.type.trip.description': 'Budget for your upcoming trip or vacation',
+    'budget.type.scratch.description': 'Create a custom budget from scratch',
     
     // Wizard Steps
     'wizard.step1.title': 'Fixed Costs',
@@ -55,13 +66,16 @@ const translations = {
     
     // Budget Overview
     'budget.overview': 'Budget Overview',
-    'budget.expenses': 'Expenses per',
+    'budget.expenses': 'Expenses',
     'budget.income': 'Income',
     'budget.result': 'Result',
     'budget.profit': 'Profit',
     'budget.loss': 'Loss',
     'budget.view': 'View Budget',
     'budget.name': 'Budget Name',
+    'budget.monthly.expenses': 'Monthly Expenses',
+    'budget.monthly.sales': 'Monthly Sales',
+    'budget.monthly.profit': 'Monthly Profit',
     
     // Actions
     'action.save': 'Save',
@@ -69,12 +83,17 @@ const translations = {
     'action.import': 'Import',
     'action.edit': 'Edit',
     'action.delete': 'Delete',
+    'action.confirm.delete': 'Are you sure you want to delete this budget?',
     
     // Common
     'common.description': 'Description',
     'common.amount': 'Amount',
     'common.total': 'Total',
     'common.cancel': 'Cancel',
+    'common.confirm': 'Confirm',
+    
+    // Errors
+    'import.error': 'Error importing data. Please check the file format.',
   },
   es: {
     // App General
@@ -82,17 +101,28 @@ const translations = {
     'app.subtitle': 'Herramienta de Planificación Presupuestaria',
     'language.switch': 'English',
     
+    // Menu
+    'menu.export': 'Exportar Datos',
+    'menu.import': 'Importar Datos',
+    'menu.language': 'Cambiar a English',
+    
     // Home Page
     'home.welcome': 'Bienvenido a Monny',
     'home.description': 'Herramienta simple de presupuestos para individuos y pequeñas empresas',
     'home.create.budget': 'Crear Nuevo Presupuesto',
     'home.import.data': 'Importar Datos',
     'home.export.data': 'Exportar Datos',
+    'home.no.budgets': 'Aún no hay presupuestos',
+    'home.no.budgets.description': 'Crea tu primer presupuesto para comenzar',
     
     // Budget Types
     'budget.type.business': 'Presupuesto Mensual de Negocio',
     'budget.type.trip': 'Presupuesto de Viaje',
+    'budget.type.scratch': 'Comenzar desde Cero',
     'budget.select.type': 'Seleccionar Tipo de Presupuesto',
+    'budget.type.business.description': 'Planifica tus gastos mensuales y ingresos del negocio',
+    'budget.type.trip.description': 'Presupuesta tu próximo viaje o vacaciones',
+    'budget.type.scratch.description': 'Crea un presupuesto personalizado desde cero',
     
     // Wizard Steps
     'wizard.step1.title': 'Costos Fijos',
@@ -119,13 +149,16 @@ const translations = {
     
     // Budget Overview
     'budget.overview': 'Resumen del Presupuesto',
-    'budget.expenses': 'Gastos por',
+    'budget.expenses': 'Gastos',
     'budget.income': 'Ingresos',
     'budget.result': 'Resultado',
     'budget.profit': 'Ganancia',
     'budget.loss': 'Pérdida',
     'budget.view': 'Ver Presupuesto',
     'budget.name': 'Nombre del Presupuesto',
+    'budget.monthly.expenses': 'Gastos Mensuales',
+    'budget.monthly.sales': 'Ventas Mensuales',
+    'budget.monthly.profit': 'Ganancia Mensual',
     
     // Actions
     'action.save': 'Guardar',
@@ -133,12 +166,17 @@ const translations = {
     'action.import': 'Importar',
     'action.edit': 'Editar',
     'action.delete': 'Eliminar',
+    'action.confirm.delete': '¿Estás seguro de que quieres eliminar este presupuesto?',
     
     // Common
     'common.description': 'Descripción',
     'common.amount': 'Cantidad',
     'common.total': 'Total',
     'common.cancel': 'Cancelar',
+    'common.confirm': 'Confirmar',
+    
+    // Errors
+    'import.error': 'Error al importar datos. Por favor verifica el formato del archivo.',
   }
 };
 

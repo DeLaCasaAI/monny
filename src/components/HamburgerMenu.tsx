@@ -44,8 +44,24 @@ export const HamburgerMenu: React.FC = () => {
         reader.onload = (e) => {
           try {
             const data = e.target?.result as string;
-            const budgets = JSON.parse(data);
-            localStorage.setItem('monny-budgets', JSON.stringify(budgets));
+            const parsedData = JSON.parse(data);
+            
+            // Handle both single budget object and array of budgets
+            let budgetsToImport;
+            if (Array.isArray(parsedData)) {
+              budgetsToImport = parsedData;
+            } else if (parsedData && typeof parsedData === 'object' && parsedData.id) {
+              // Single budget object, wrap it in an array
+              budgetsToImport = [parsedData];
+            } else {
+              throw new Error('Invalid budget data format');
+            }
+            
+            // Get existing budgets and merge with imported ones
+            const existingBudgets = JSON.parse(localStorage.getItem('monny-budgets') || '[]');
+            const mergedBudgets = [...existingBudgets, ...budgetsToImport];
+            
+            localStorage.setItem('monny-budgets', JSON.stringify(mergedBudgets));
             window.location.reload();
           } catch (error) {
             console.error('Error importing data:', error);

@@ -9,8 +9,9 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { Budget } from '@/types/budget';
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'selector' | 'wizard'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'selector' | 'wizard' | 'view'>('home');
   const [selectedBudgetType, setSelectedBudgetType] = useState<'business' | 'trip' | 'scratch'>('business');
+  const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
   const [budgets, setBudgets] = useLocalStorage<Budget[]>('monny-budgets', []);
 
   const handleCreateNew = () => {
@@ -30,6 +31,7 @@ const Index = () => {
 
   const handleBackToHome = () => {
     setCurrentView('home');
+    setSelectedBudget(null);
   };
 
   const handleBackToSelector = () => {
@@ -38,6 +40,11 @@ const Index = () => {
 
   const handleDeleteBudget = (budgetId: string) => {
     setBudgets(budgets.filter(budget => budget.id !== budgetId));
+  };
+
+  const handleViewBudget = (budget: Budget) => {
+    setSelectedBudget(budget);
+    setCurrentView('view');
   };
 
   return (
@@ -51,6 +58,7 @@ const Index = () => {
               budgets={budgets} 
               onCreateNew={handleCreateNew}
               onDeleteBudget={handleDeleteBudget}
+              onViewBudget={handleViewBudget}
             />
           )}
           
@@ -67,6 +75,24 @@ const Index = () => {
               onComplete={handleBudgetComplete}
               onBack={selectedBudgetType === 'scratch' ? handleBackToSelector : handleBackToSelector}
             />
+          )}
+          
+          {currentView === 'view' && selectedBudget && (
+            <div className="max-w-4xl mx-auto p-6">
+              <div className="mb-6">
+                <button 
+                  onClick={handleBackToHome}
+                  className="text-blue-600 hover:text-blue-800 mb-4"
+                >
+                  ← Back to budgets
+                </button>
+                <h1 className="text-3xl font-bold">{selectedBudget.name}</h1>
+              </div>
+              {/* Budget view content will be implemented later */}
+              <div className="bg-white rounded-lg p-6 shadow">
+                <p className="text-gray-600">Budget details view - coming soon</p>
+              </div>
+            </div>
           )}
         </main>
       </div>

@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
 interface LanguageContextProps {
@@ -71,6 +70,7 @@ const translations = {
     'menu.export': 'Export Data',
     'menu.import': 'Import Data',
     'menu.language': 'Switch Language',
+    'menu.darkMode': 'Dark Mode',
     'import.error': 'Error importing data. Please check the file format.',
   },
   es: {
@@ -130,19 +130,33 @@ const translations = {
     'menu.export': 'Exportar Datos',
     'menu.import': 'Importar Datos',
     'menu.language': 'Cambiar Idioma',
+    'menu.darkMode': 'Modo Oscuro',
     'import.error': 'Error al importar datos. Por favor, verifica el formato del archivo.',
   },
 };
 
+const detectBrowserLanguage = (): 'en' | 'es' => {
+  const browserLang = navigator.language.toLowerCase();
+  return browserLang.startsWith('es') ? 'es' : 'en';
+};
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<'en' | 'es'>('en');
+  const [language, setLanguage] = useState<'en' | 'es'>(() => {
+    const saved = localStorage.getItem('language');
+    return (saved as 'en' | 'es') || detectBrowserLanguage();
+  });
+
+  const handleSetLanguage = (lang: 'en' | 'es') => {
+    setLanguage(lang);
+    localStorage.setItem('language', lang);
+  };
 
   const t = useCallback((key: string) => {
     return translations[language][key] || key;
   }, [language]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

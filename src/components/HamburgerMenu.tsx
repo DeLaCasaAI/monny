@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Menu, Globe, Download, Upload } from 'lucide-react';
+import { Menu, Globe, Download, Upload, Moon, Sun } from 'lucide-react';
 import {
   Menubar,
   MenubarContent,
@@ -8,10 +7,13 @@ import {
   MenubarMenu,
   MenubarTrigger,
 } from '@/components/ui/menubar';
+import { Switch } from '@/components/ui/switch';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export const HamburgerMenu: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLanguageSwitch = () => {
     setLanguage(language === 'en' ? 'es' : 'en');
@@ -61,7 +63,7 @@ export const HamburgerMenu: React.FC = () => {
         <MenubarTrigger className="p-2">
           <Menu className="h-5 w-5" />
         </MenubarTrigger>
-        <MenubarContent className="bg-white border border-gray-200 shadow-lg z-50">
+        <MenubarContent className="bg-background border border-border shadow-lg z-50">
           <MenubarItem onClick={handleExport} className="flex items-center gap-2 cursor-pointer">
             <Download className="h-4 w-4" />
             {t('menu.export')}
@@ -73,6 +75,13 @@ export const HamburgerMenu: React.FC = () => {
           <MenubarItem onClick={handleLanguageSwitch} className="flex items-center gap-2 cursor-pointer">
             <Globe className="h-4 w-4" />
             {t('menu.language')}
+          </MenubarItem>
+          <MenubarItem className="flex items-center justify-between gap-2 cursor-pointer" onClick={toggleTheme}>
+            <div className="flex items-center gap-2">
+              {theme === 'dark' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+              {t('menu.darkMode')}
+            </div>
+            <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} />
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>

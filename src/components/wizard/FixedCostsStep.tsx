@@ -10,9 +10,10 @@ import { FixedCost } from '@/types/budget';
 interface FixedCostsStepProps {
   fixedCosts: FixedCost[];
   onUpdate: (costs: FixedCost[]) => void;
+  budgetType: 'business' | 'trip' | 'scratch';
 }
 
-export const FixedCostsStep: React.FC<FixedCostsStepProps> = ({ fixedCosts, onUpdate }) => {
+export const FixedCostsStep: React.FC<FixedCostsStepProps> = ({ fixedCosts, onUpdate, budgetType }) => {
   const { t } = useLanguage();
 
   const addFixedCost = () => {

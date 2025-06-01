@@ -10,9 +10,10 @@ import { Product } from '@/types/budget';
 interface SalesStepProps {
   products: Product[];
   onUpdate: (products: Product[]) => void;
+  budgetType: 'business' | 'trip' | 'scratch';
 }
 
-export const SalesStep: React.FC<SalesStepProps> = ({ products, onUpdate }) => {
+export const SalesStep: React.FC<SalesStepProps> = ({ products, onUpdate, budgetType }) => {
   const { t } = useLanguage();
 
   const addProduct = () => {

@@ -11,6 +11,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { ImportDialog } from './ImportDialog';
 
 export const HamburgerMenu: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
@@ -33,55 +34,6 @@ export const HamburgerMenu: React.FC = () => {
     }
   };
 
-  const handleImport = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = (e) => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          try {
-            const data = e.target?.result as string;
-            const parsedData = JSON.parse(data);
-            
-            // Handle both single budget object and array of budgets
-            let budgetsToImport;
-            if (Array.isArray(parsedData)) {
-              budgetsToImport = parsedData;
-            } else if (parsedData && typeof parsedData === 'object' && parsedData.id) {
-              // Single budget object, wrap it in an array
-              budgetsToImport = [parsedData];
-            } else {
-              throw new Error('Invalid budget data format');
-            }
-            
-            // Get existing budgets and ensure it's always an array
-            let existingBudgets;
-            try {
-              const stored = localStorage.getItem('monny-budgets');
-              const parsed = stored ? JSON.parse(stored) : [];
-              existingBudgets = Array.isArray(parsed) ? parsed : [];
-            } catch {
-              existingBudgets = [];
-            }
-            
-            const mergedBudgets = [...existingBudgets, ...budgetsToImport];
-            
-            localStorage.setItem('monny-budgets', JSON.stringify(mergedBudgets));
-            window.location.reload();
-          } catch (error) {
-            console.error('Error importing data:', error);
-            alert(t('import.error'));
-          }
-        };
-        reader.readAsText(file);
-      }
-    };
-    input.click();
-  };
-
   return (
     <Menubar>
       <MenubarMenu>
@@ -93,10 +45,12 @@ export const HamburgerMenu: React.FC = () => {
             <Download className="h-4 w-4" />
             {t('menu.export')}
           </MenubarItem>
-          <MenubarItem onClick={handleImport} className="flex items-center gap-2 cursor-pointer">
-            <Upload className="h-4 w-4" />
-            {t('menu.import')}
-          </MenubarItem>
+          <ImportDialog>
+            <MenubarItem className="flex items-center gap-2 cursor-pointer">
+              <Upload className="h-4 w-4" />
+              {t('menu.import')}
+            </MenubarItem>
+          </ImportDialog>
           <MenubarItem onClick={handleLanguageSwitch} className="flex items-center gap-2 cursor-pointer">
             <Globe className="h-4 w-4" />
             {t('menu.language')}

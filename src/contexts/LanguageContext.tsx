@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
 interface LanguageContextProps {
@@ -21,9 +22,14 @@ const translations = {
     'budget.list.subtitle': 'Manage and track your budgets',
     'budget.list.empty.title': 'No budgets yet',
     'budget.list.empty.description': 'Create your first budget to get started with financial planning',
+    'budget.select.type': 'Select Budget Type',
     'budget.type.business': 'Business',
+    'budget.type.business.description': 'Create a budget for your business with fixed costs, products, and revenue projections',
     'budget.type.trip': 'Trip',
+    'budget.type.trip.description': 'Plan your travel expenses and budget for an upcoming trip or vacation',
     'budget.type.scratch': 'From Scratch',
+    'budget.type.scratch.description': 'Start with a blank budget and customize it completely to your needs',
+    'budget.create.use': 'Use Template',
     'budget.name': 'Budget Name',
     'budget.overview': 'Budget Overview',
     'budget.overview.expenses': 'Expenses',
@@ -81,9 +87,14 @@ const translations = {
     'budget.list.subtitle': 'Gestiona y rastrea tus presupuestos',
     'budget.list.empty.title': 'Aún no hay presupuestos',
     'budget.list.empty.description': 'Crea tu primer presupuesto para comenzar con la planificación financiera',
+    'budget.select.type': 'Seleccionar Tipo de Presupuesto',
     'budget.type.business': 'Negocio',
+    'budget.type.business.description': 'Crea un presupuesto para tu negocio con costos fijos, productos y proyecciones de ingresos',
     'budget.type.trip': 'Viaje',
+    'budget.type.trip.description': 'Planifica tus gastos de viaje y presupuesto para un próximo viaje o vacaciones',
     'budget.type.scratch': 'Desde Cero',
+    'budget.type.scratch.description': 'Comienza con un presupuesto en blanco y personalízalo completamente según tus necesidades',
+    'budget.create.use': 'Usar Plantilla',
     'budget.name': 'Nombre del Presupuesto',
     'budget.overview': 'Resumen del Presupuesto',
     'budget.overview.expenses': 'Gastos',

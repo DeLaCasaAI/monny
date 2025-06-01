@@ -4,6 +4,7 @@ import { Header } from '@/components/Header';
 import { BudgetTypeSelector } from '@/components/BudgetTypeSelector';
 import { BudgetWizard } from '@/components/BudgetWizard';
 import { BudgetList } from '@/components/BudgetList';
+import { BudgetDetailsView } from '@/components/BudgetDetailsView';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { Budget } from '@/types/budget';
@@ -78,21 +79,10 @@ const Index = () => {
           )}
           
           {currentView === 'view' && selectedBudget && (
-            <div className="max-w-4xl mx-auto p-6">
-              <div className="mb-6">
-                <button 
-                  onClick={handleBackToHome}
-                  className="text-blue-600 hover:text-blue-800 mb-4"
-                >
-                  ← Back to budgets
-                </button>
-                <h1 className="text-3xl font-bold">{selectedBudget.name}</h1>
-              </div>
-              {/* Budget view content will be implemented later */}
-              <div className="bg-white rounded-lg p-6 shadow">
-                <p className="text-gray-600">Budget details view - coming soon</p>
-              </div>
-            </div>
+            <BudgetDetailsView
+              budget={selectedBudget}
+              onBack={handleBackToHome}
+            />
           )}
         </main>
       </div>

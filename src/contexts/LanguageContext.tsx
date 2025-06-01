@@ -1,215 +1,142 @@
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-type Language = 'en' | 'es';
-
-interface LanguageContextType {
-  language: Language;
-  setLanguage: (lang: Language) => void;
+interface LanguageContextProps {
+  language: 'en' | 'es';
+  setLanguage: (lang: 'en' | 'es') => void;
   t: (key: string) => string;
 }
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextProps>({
+  language: 'en',
+  setLanguage: () => {},
+  t: (key: string) => key,
+});
 
 const translations = {
   en: {
-    // App General
     'app.title': 'Monny',
-    'app.subtitle': 'Budget Planning Tool',
-    'language.switch': 'Español',
-    
-    // Menu
-    'menu.export': 'Export Data',
-    'menu.import': 'Import Data',
-    'menu.language': 'Switch to Español',
-    
-    // Home Page
-    'home.welcome': 'Welcome to Monny',
-    'home.description': 'Simple budgeting and planning tool for individuals and small businesses',
-    'home.create.budget': 'Create New Budget',
-    'home.import.data': 'Import Data',
-    'home.export.data': 'Export Data',
-    'home.no.budgets': 'No budgets yet',
-    'home.no.budgets.description': 'Create your first budget to get started',
-    
-    // Budget Types
-    'budget.type.business': 'Business Monthly Budget',
-    'budget.type.trip': 'Trip Budget',
-    'budget.type.scratch': 'Start from Scratch',
-    'budget.select.type': 'Select Budget Type',
-    'budget.type.business.description': 'Plan your monthly business expenses and revenue',
-    'budget.type.trip.description': 'Budget for your upcoming trip or vacation',
-    'budget.type.scratch.description': 'Create a custom budget from scratch',
-    
-    // Wizard Steps
+    'app.subtitle': 'Budget Calculator',
+    'budget.create.new': 'Create New Budget',
+    'budget.create.first': 'Create Your First Budget',
+    'budget.list.subtitle': 'Manage and track your budgets',
+    'budget.list.empty.title': 'No budgets yet',
+    'budget.list.empty.description': 'Create your first budget to get started with financial planning',
+    'budget.type.business': 'Business',
+    'budget.type.trip': 'Trip',
+    'budget.type.scratch': 'From Scratch',
+    'budget.name': 'Budget Name',
+    'budget.overview': 'Budget Overview',
+    'budget.overview.expenses': 'Expenses',
+    'budget.overview.sales': 'Sales',
+    'budget.overview.profit': 'Profit',
+    'budget.expenses': 'Fixed Costs',
+    'budget.income': 'Products & Services',
+    'budget.result': 'Net Result',
+    'budget.profit': 'Profit',
+    'budget.loss': 'Loss',
+    'budget.view': 'View Budget',
+    'budget.no.expenses': 'No expenses added',
+    'budget.no.products': 'No products added',
     'wizard.step1.title': 'Fixed Costs',
-    'wizard.step2.title': 'Sales & Products',
+    'wizard.step2.title': 'Sales & Revenue',
     'wizard.step3.title': 'Review & Save',
-    'wizard.next': 'Next',
-    'wizard.back': 'Back',
+    'wizard.next': 'Next Step',
+    'wizard.back': 'Previous',
     'wizard.skip': 'Skip',
-    'wizard.add.new': 'Add New',
-    
-    // Fixed Costs
+    'wizard.add.new': 'Add New Item',
     'fixed.rent': 'Rent',
     'fixed.electricity': 'Electricity',
     'fixed.salaries': 'Salaries',
     'fixed.per': 'Per',
-    'fixed.days': 'Days',
-    
-    // Sales
-    'sales.title': 'Sales',
-    'sales.cost.ea': 'Cost/ea',
-    'sales.price.ea': 'Price/ea',
-    'sales.sales': 'Sales',
+    'fixed.days': 'days',
     'sales.product': 'Product',
-    
-    // Budget Overview
-    'budget.overview': 'Budget Overview',
-    'budget.expenses': 'Expenses',
-    'budget.income': 'Income',
-    'budget.result': 'Result',
-    'budget.profit': 'Profit',
-    'budget.loss': 'Loss',
-    'budget.view': 'View Budget',
-    'budget.name': 'Budget Name',
-    'budget.monthly.expenses': 'Monthly Expenses',
-    'budget.monthly.sales': 'Monthly Sales',
-    'budget.monthly.profit': 'Monthly Profit',
-    
-    // Actions
-    'action.save': 'Save',
+    'sales.cost.ea': 'Cost/Unit',
+    'sales.price.ea': 'Price/Unit',
+    'sales.sales': 'Units Sold',
+    'common.amount': 'Amount',
+    'common.description': 'Description',
+    'common.cancel': 'Cancel',
+    'common.back': 'Back to budgets',
+    'action.save': 'Save Budget',
     'action.export': 'Export',
     'action.import': 'Import',
     'action.edit': 'Edit',
-    'action.delete': 'Delete',
-    'action.confirm.delete': 'Are you sure you want to delete this budget?',
-    
-    // Common
-    'common.description': 'Description',
-    'common.amount': 'Amount',
-    'common.total': 'Total',
-    'common.cancel': 'Cancel',
-    'common.confirm': 'Confirm',
-    
-    // Errors
+    'action.duplicate': 'Duplicate',
+    'menu.export': 'Export Data',
+    'menu.import': 'Import Data',
+    'menu.language': 'Switch Language',
     'import.error': 'Error importing data. Please check the file format.',
   },
   es: {
-    // App General
     'app.title': 'Monny',
-    'app.subtitle': 'Herramienta de Planificación Presupuestaria',
-    'language.switch': 'English',
-    
-    // Menu
-    'menu.export': 'Exportar Datos',
-    'menu.import': 'Importar Datos',
-    'menu.language': 'Cambiar a English',
-    
-    // Home Page
-    'home.welcome': 'Bienvenido a Monny',
-    'home.description': 'Herramienta simple de presupuestos para individuos y pequeñas empresas',
-    'home.create.budget': 'Crear Nuevo Presupuesto',
-    'home.import.data': 'Importar Datos',
-    'home.export.data': 'Exportar Datos',
-    'home.no.budgets': 'Aún no hay presupuestos',
-    'home.no.budgets.description': 'Crea tu primer presupuesto para comenzar',
-    
-    // Budget Types
-    'budget.type.business': 'Presupuesto Mensual de Negocio',
-    'budget.type.trip': 'Presupuesto de Viaje',
-    'budget.type.scratch': 'Comenzar desde Cero',
-    'budget.select.type': 'Seleccionar Tipo de Presupuesto',
-    'budget.type.business.description': 'Planifica tus gastos mensuales y ingresos del negocio',
-    'budget.type.trip.description': 'Presupuesta tu próximo viaje o vacaciones',
-    'budget.type.scratch.description': 'Crea un presupuesto personalizado desde cero',
-    
-    // Wizard Steps
-    'wizard.step1.title': 'Costos Fijos',
-    'wizard.step2.title': 'Ventas y Productos',
-    'wizard.step3.title': 'Revisar y Guardar',
-    'wizard.next': 'Siguiente',
-    'wizard.back': 'Atrás',
-    'wizard.skip': 'Omitir',
-    'wizard.add.new': 'Agregar Nuevo',
-    
-    // Fixed Costs
-    'fixed.rent': 'Arriendo',
-    'fixed.electricity': 'Electricidad',
-    'fixed.salaries': 'Salarios',
-    'fixed.per': 'Por',
-    'fixed.days': 'Días',
-    
-    // Sales
-    'sales.title': 'Ventas',
-    'sales.cost.ea': 'Costo/c.u.',
-    'sales.price.ea': 'Precio/c.u.',
-    'sales.sales': 'Ventas',
-    'sales.product': 'Producto',
-    
-    // Budget Overview
+    'app.subtitle': 'Calculadora de Presupuestos',
+    'budget.create.new': 'Crear Nuevo Presupuesto',
+    'budget.create.first': 'Crea Tu Primer Presupuesto',
+    'budget.list.subtitle': 'Gestiona y rastrea tus presupuestos',
+    'budget.list.empty.title': 'Aún no hay presupuestos',
+    'budget.list.empty.description': 'Crea tu primer presupuesto para comenzar con la planificación financiera',
+    'budget.type.business': 'Negocio',
+    'budget.type.trip': 'Viaje',
+    'budget.type.scratch': 'Desde Cero',
+    'budget.name': 'Nombre del Presupuesto',
     'budget.overview': 'Resumen del Presupuesto',
-    'budget.expenses': 'Gastos',
-    'budget.income': 'Ingresos',
-    'budget.result': 'Resultado',
+    'budget.overview.expenses': 'Gastos',
+    'budget.overview.sales': 'Ventas',
+    'budget.overview.profit': 'Ganancia',
+    'budget.expenses': 'Costos Fijos',
+    'budget.income': 'Productos y Servicios',
+    'budget.result': 'Resultado Neto',
     'budget.profit': 'Ganancia',
     'budget.loss': 'Pérdida',
     'budget.view': 'Ver Presupuesto',
-    'budget.name': 'Nombre del Presupuesto',
-    'budget.monthly.expenses': 'Gastos Mensuales',
-    'budget.monthly.sales': 'Ventas Mensuales',
-    'budget.monthly.profit': 'Ganancia Mensual',
-    
-    // Actions
-    'action.save': 'Guardar',
+    'budget.no.expenses': 'No se agregaron gastos',
+    'budget.no.products': 'No se agregaron productos',
+    'wizard.step1.title': 'Costos Fijos',
+    'wizard.step2.title': 'Ventas e Ingresos',
+    'wizard.step3.title': 'Revisar y Guardar',
+    'wizard.next': 'Siguiente Paso',
+    'wizard.back': 'Anterior',
+    'wizard.skip': 'Omitir',
+    'wizard.add.new': 'Agregar Nuevo Elemento',
+    'fixed.rent': 'Alquiler',
+    'fixed.electricity': 'Electricidad',
+    'fixed.salaries': 'Salarios',
+    'fixed.per': 'Por',
+    'fixed.days': 'días',
+    'sales.product': 'Producto',
+    'sales.cost.ea': 'Costo/Unidad',
+    'sales.price.ea': 'Precio/Unidad',
+    'sales.sales': 'Unidades Vendidas',
+    'common.amount': 'Cantidad',
+    'common.description': 'Descripción',
+    'common.cancel': 'Cancelar',
+    'common.back': 'Volver a presupuestos',
+    'action.save': 'Guardar Presupuesto',
     'action.export': 'Exportar',
     'action.import': 'Importar',
     'action.edit': 'Editar',
-    'action.delete': 'Eliminar',
-    'action.confirm.delete': '¿Estás seguro de que quieres eliminar este presupuesto?',
-    
-    // Common
-    'common.description': 'Descripción',
-    'common.amount': 'Cantidad',
-    'common.total': 'Total',
-    'common.cancel': 'Cancelar',
-    'common.confirm': 'Confirmar',
-    
-    // Errors
-    'import.error': 'Error al importar datos. Por favor verifica el formato del archivo.',
-  }
+    'action.duplicate': 'Duplicar',
+    'menu.export': 'Exportar Datos',
+    'menu.import': 'Importar Datos',
+    'menu.language': 'Cambiar Idioma',
+    'import.error': 'Error al importar datos. Por favor, verifica el formato del archivo.',
+  },
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<'en' | 'es'>('en');
 
-  useEffect(() => {
-    const savedLang = localStorage.getItem('monny-language') as Language;
-    if (savedLang && (savedLang === 'en' || savedLang === 'es')) {
-      setLanguage(savedLang);
-    }
-  }, []);
-
-  const handleSetLanguage = (lang: Language) => {
-    setLanguage(lang);
-    localStorage.setItem('monny-language', lang);
-  };
-
-  const t = (key: string): string => {
+  const t = useCallback((key: string) => {
     return translations[language][key] || key;
-  };
+  }, [language]);
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );
 };
 
 export const useLanguage = () => {
-  const context = useContext(LanguageContext);
-  if (context === undefined) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
-  return context;
+  return useContext(LanguageContext);
 };

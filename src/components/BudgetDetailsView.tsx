@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ArrowLeft, Building2, Plane, FileText, Calendar, Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,9 +8,10 @@ import { Budget } from '@/types/budget';
 interface BudgetDetailsViewProps {
   budget: Budget;
   onBack: () => void;
+  onEdit: () => void;
 }
 
-export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, onBack }) => {
+export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, onBack, onEdit }) => {
   const { t } = useLanguage();
 
   const getBudgetIcon = (type: Budget['type']) => {
@@ -76,7 +76,11 @@ export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, on
             </div>
           </div>
           
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2"
+            onClick={onEdit}
+          >
             <Edit className="h-4 w-4" />
             {t('action.edit')}
           </Button>
@@ -218,7 +222,10 @@ export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, on
         <Button variant="outline" className="flex-1">
           {t('action.duplicate')}
         </Button>
-        <Button className="flex-1 bg-blue-600 hover:bg-blue-700">
+        <Button 
+          className="flex-1 bg-blue-600 hover:bg-blue-700"
+          onClick={onEdit}
+        >
           {t('action.edit')}
         </Button>
       </div>

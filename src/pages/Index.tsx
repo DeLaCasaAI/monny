@@ -1,16 +1,16 @@
-
 import React, { useState } from 'react';
 import { Header } from '@/components/Header';
 import { BudgetTypeSelector } from '@/components/BudgetTypeSelector';
 import { BudgetWizard } from '@/components/BudgetWizard';
 import { BudgetList } from '@/components/BudgetList';
 import { BudgetDetailsView } from '@/components/BudgetDetailsView';
+import { EditBudgetView } from '@/components/EditBudgetView';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { Budget } from '@/types/budget';
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'selector' | 'wizard' | 'view'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'selector' | 'wizard' | 'view' | 'edit'>('home');
   const [selectedBudgetType, setSelectedBudgetType] = useState<'business' | 'trip' | 'scratch'>('business');
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
   const [budgets, setBudgets] = useLocalStorage<Budget[]>('monny-budgets', []);
@@ -48,6 +48,23 @@ const Index = () => {
     setCurrentView('view');
   };
 
+  const handleEditBudget = () => {
+    setCurrentView('edit');
+  };
+
+  const handleSaveBudget = (updatedBudget: Budget) => {
+    setBudgets(budgets.map(budget => 
+      budget.id === updatedBudget.id ? updatedBudget : budget
+    ));
+    setSelectedBudget(updatedBudget);
+    setCurrentView('view');
+    console.log('Budget updated:', updatedBudget);
+  };
+
+  const handleBackToView = () => {
+    setCurrentView('view');
+  };
+
   return (
     <LanguageProvider>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -82,6 +99,15 @@ const Index = () => {
             <BudgetDetailsView
               budget={selectedBudget}
               onBack={handleBackToHome}
+              onEdit={handleEditBudget}
+            />
+          )}
+
+          {currentView === 'edit' && selectedBudget && (
+            <EditBudgetView
+              budget={selectedBudget}
+              onSave={handleSaveBudget}
+              onBack={handleBackToView}
             />
           )}
         </main>

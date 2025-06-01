@@ -65,6 +65,12 @@ const Index = () => {
     setCurrentView('view');
   };
 
+  const handleDuplicateBudget = (duplicatedBudget: Budget) => {
+    setBudgets([...budgets, duplicatedBudget]);
+    setSelectedBudget(duplicatedBudget);
+    console.log('Budget duplicated:', duplicatedBudget);
+  };
+
   return (
     <LanguageProvider>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -100,6 +106,7 @@ const Index = () => {
               budget={selectedBudget}
               onBack={handleBackToHome}
               onEdit={handleEditBudget}
+              onDuplicate={handleDuplicateBudget}
             />
           )}
 

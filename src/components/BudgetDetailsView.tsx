@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { ArrowLeft, Building2, Plane, FileText, Calendar, Edit } from 'lucide-react';
+import { ArrowLeft, Building2, Plane, FileText, Calendar, Edit, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -9,9 +10,10 @@ interface BudgetDetailsViewProps {
   budget: Budget;
   onBack: () => void;
   onEdit: () => void;
+  onDuplicate: (budget: Budget) => void;
 }
 
-export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, onBack, onEdit }) => {
+export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, onBack, onEdit, onDuplicate }) => {
   const { t } = useLanguage();
 
   const getBudgetIcon = (type: Budget['type']) => {
@@ -45,6 +47,25 @@ export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, on
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
+  };
+
+  const handleDuplicate = () => {
+    const duplicatedBudget: Budget = {
+      ...budget,
+      id: crypto.randomUUID(),
+      name: `${budget.name} (Copy)`,
+      fixedCosts: budget.fixedCosts.map(cost => ({
+        ...cost,
+        id: crypto.randomUUID()
+      })),
+      products: budget.products.map(product => ({
+        ...product,
+        id: crypto.randomUUID()
+      })),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    onDuplicate(duplicatedBudget);
   };
 
   return (
@@ -219,7 +240,12 @@ export const BudgetDetailsView: React.FC<BudgetDetailsViewProps> = ({ budget, on
         <Button variant="outline" className="flex-1">
           {t('action.export')}
         </Button>
-        <Button variant="outline" className="flex-1">
+        <Button 
+          variant="outline" 
+          className="flex-1 flex items-center gap-2"
+          onClick={handleDuplicate}
+        >
+          <Copy className="h-4 w-4" />
           {t('action.duplicate')}
         </Button>
         <Button 

@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Menu, Globe, Download, Upload, Moon, Sun } from 'lucide-react';
+import { Menu, Globe, Download, Upload, Moon, Sun, RefreshCw } from 'lucide-react';
 import {
   Menubar,
   MenubarContent,
@@ -82,6 +83,10 @@ export const HamburgerMenu: React.FC = () => {
               {t('menu.darkMode')}
             </div>
             <Switch checked={theme === 'dark'} onCheckedChange={toggleTheme} />
+          </MenubarItem>
+          <MenubarItem onClick={() => window.location.href = '/reset'} className="flex items-center gap-2 cursor-pointer text-orange-600">
+            <RefreshCw className="h-4 w-4" />
+            Reset App
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>

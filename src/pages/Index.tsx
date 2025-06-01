@@ -14,7 +14,12 @@ const Index = () => {
   const [currentView, setCurrentView] = useState<'home' | 'selector' | 'wizard' | 'view' | 'edit'>('home');
   const [selectedBudgetType, setSelectedBudgetType] = useState<'business' | 'trip' | 'scratch'>('business');
   const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
-  const [budgets, setBudgets] = useLocalStorage<Budget[]>('monny-budgets', []);
+  const [budgetsData, setBudgetsData] = useLocalStorage<Budget[]>('monny-budgets', []);
+  
+  // Ensure budgets is always an array to prevent .map errors
+  const budgets = Array.isArray(budgetsData) ? budgetsData : [];
+
+  console.log('Budgets data:', budgetsData, 'Is array:', Array.isArray(budgetsData));
 
   const handleCreateNew = () => {
     setCurrentView('selector');
@@ -26,7 +31,7 @@ const Index = () => {
   };
 
   const handleBudgetComplete = (budget: Budget) => {
-    setBudgets([...budgets, budget]);
+    setBudgetsData([...budgets, budget]);
     setCurrentView('home');
     console.log('Budget saved:', budget);
   };
@@ -41,7 +46,7 @@ const Index = () => {
   };
 
   const handleDeleteBudget = (budgetId: string) => {
-    setBudgets(budgets.filter(budget => budget.id !== budgetId));
+    setBudgetsData(budgets.filter(budget => budget.id !== budgetId));
   };
 
   const handleViewBudget = (budget: Budget) => {
@@ -54,7 +59,7 @@ const Index = () => {
   };
 
   const handleSaveBudget = (updatedBudget: Budget) => {
-    setBudgets(budgets.map(budget => 
+    setBudgetsData(budgets.map(budget => 
       budget.id === updatedBudget.id ? updatedBudget : budget
     ));
     setSelectedBudget(updatedBudget);
@@ -67,7 +72,7 @@ const Index = () => {
   };
 
   const handleDuplicateBudget = (duplicatedBudget: Budget) => {
-    setBudgets([...budgets, duplicatedBudget]);
+    setBudgetsData([...budgets, duplicatedBudget]);
     setSelectedBudget(duplicatedBudget);
     console.log('Budget duplicated:', duplicatedBudget);
   };

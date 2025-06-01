@@ -10,7 +10,7 @@ import { ReviewStep } from './wizard/ReviewStep';
 import { Budget, FixedCost, Product } from '@/types/budget';
 
 interface BudgetWizardProps {
-  budgetType: 'business' | 'trip';
+  budgetType: 'business' | 'trip' | 'scratch';
   onComplete: (budget: Budget) => void;
   onBack: () => void;
 }
@@ -18,7 +18,7 @@ interface BudgetWizardProps {
 export const BudgetWizard: React.FC<BudgetWizardProps> = ({ budgetType, onComplete, onBack }) => {
   const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState(1);
-  const [budgetName, setBudgetName] = useState(t('budget.type.business'));
+  const [budgetName, setBudgetName] = useState(t(`budget.type.${budgetType}`));
   const [fixedCosts, setFixedCosts] = useState<FixedCost[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -59,9 +59,9 @@ export const BudgetWizard: React.FC<BudgetWizardProps> = ({ budgetType, onComple
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <FixedCostsStep fixedCosts={fixedCosts} onUpdate={setFixedCosts} />;
+        return <FixedCostsStep fixedCosts={fixedCosts} onUpdate={setFixedCosts} budgetType={budgetType} />;
       case 2:
-        return <SalesStep products={products} onUpdate={setProducts} />;
+        return <SalesStep products={products} onUpdate={setProducts} budgetType={budgetType} />;
       case 3:
         return (
           <ReviewStep

@@ -3,16 +3,21 @@ import React, { useState } from 'react';
 import { Header } from '@/components/Header';
 import { BudgetTypeSelector } from '@/components/BudgetTypeSelector';
 import { BudgetWizard } from '@/components/BudgetWizard';
+import { BudgetList } from '@/components/BudgetList';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { Budget } from '@/types/budget';
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'home' | 'wizard'>('home');
-  const [selectedBudgetType, setSelectedBudgetType] = useState<'business' | 'trip'>('business');
+  const [currentView, setCurrentView] = useState<'home' | 'selector' | 'wizard'>('home');
+  const [selectedBudgetType, setSelectedBudgetType] = useState<'business' | 'trip' | 'scratch'>('business');
   const [budgets, setBudgets] = useLocalStorage<Budget[]>('monny-budgets', []);
 
-  const handleBudgetTypeSelect = (type: 'business' | 'trip') => {
+  const handleCreateNew = () => {
+    setCurrentView('selector');
+  };
+
+  const handleBudgetTypeSelect = (type: 'business' | 'trip' | 'scratch') => {
     setSelectedBudgetType(type);
     setCurrentView('wizard');
   };
@@ -27,6 +32,14 @@ const Index = () => {
     setCurrentView('home');
   };
 
+  const handleBackToSelector = () => {
+    setCurrentView('selector');
+  };
+
+  const handleDeleteBudget = (budgetId: string) => {
+    setBudgets(budgets.filter(budget => budget.id !== budgetId));
+  };
+
   return (
     <LanguageProvider>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -34,14 +47,25 @@ const Index = () => {
         
         <main className="py-8">
           {currentView === 'home' && (
-            <BudgetTypeSelector onSelect={handleBudgetTypeSelect} />
+            <BudgetList 
+              budgets={budgets} 
+              onCreateNew={handleCreateNew}
+              onDeleteBudget={handleDeleteBudget}
+            />
+          )}
+          
+          {currentView === 'selector' && (
+            <BudgetTypeSelector 
+              onSelect={handleBudgetTypeSelect}
+              onBack={handleBackToHome}
+            />
           )}
           
           {currentView === 'wizard' && (
             <BudgetWizard
               budgetType={selectedBudgetType}
               onComplete={handleBudgetComplete}
-              onBack={handleBackToHome}
+              onBack={selectedBudgetType === 'scratch' ? handleBackToSelector : handleBackToSelector}
             />
           )}
         </main>

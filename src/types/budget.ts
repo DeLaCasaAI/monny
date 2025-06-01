@@ -20,7 +20,7 @@ export interface Product {
 export interface Budget {
   id: string;
   name: string;
-  type: 'business' | 'trip';
+  type: 'business' | 'trip' | 'scratch';
   period: number;
   fixedCosts: FixedCost[];
   products: Product[];

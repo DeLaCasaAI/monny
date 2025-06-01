@@ -15,11 +15,11 @@ export const EmptyBudgetState: React.FC<EmptyBudgetStateProps> = ({ onCreateNew 
   return (
     <Card className="text-center py-12">
       <CardContent>
-        <FileText className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-foreground mb-2">
           {t('budget.list.empty.title')}
         </h3>
-        <p className="text-gray-600 mb-6">
+        <p className="text-muted-foreground mb-6">
           {t('budget.list.empty.description')}
         </p>
         <Button 

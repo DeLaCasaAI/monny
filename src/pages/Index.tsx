@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Header } from '@/components/Header';
 import { BudgetTypeSelector } from '@/components/BudgetTypeSelector';
@@ -73,7 +74,7 @@ const Index = () => {
 
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-background">
         <Header />
         
         <main className="py-8">

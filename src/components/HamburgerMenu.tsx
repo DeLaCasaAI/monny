@@ -57,8 +57,16 @@ export const HamburgerMenu: React.FC = () => {
               throw new Error('Invalid budget data format');
             }
             
-            // Get existing budgets and merge with imported ones
-            const existingBudgets = JSON.parse(localStorage.getItem('monny-budgets') || '[]');
+            // Get existing budgets and ensure it's always an array
+            let existingBudgets;
+            try {
+              const stored = localStorage.getItem('monny-budgets');
+              const parsed = stored ? JSON.parse(stored) : [];
+              existingBudgets = Array.isArray(parsed) ? parsed : [];
+            } catch {
+              existingBudgets = [];
+            }
+            
             const mergedBudgets = [...existingBudgets, ...budgetsToImport];
             
             localStorage.setItem('monny-budgets', JSON.stringify(mergedBudgets));

@@ -53,8 +53,8 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onOpenChange
       localStorage.setItem('monny-budgets', JSON.stringify(mergedBudgets));
       
       toast({
-        title: 'Import Successful',
-        description: `Imported ${budgetsToImport.length} budget(s) successfully.`,
+        title: t('import.success.title'),
+        description: t('import.success.description').replace('{count}', budgetsToImport.length.toString()),
       });
       
       onOpenChange(false);
@@ -63,8 +63,8 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onOpenChange
     } catch (error) {
       console.error('Error importing data:', error);
       toast({
-        title: 'Import Error',
-        description: 'Failed to import budget data. Please check the JSON format.',
+        title: t('import.error.title'),
+        description: t('import.error.description'),
         variant: 'destructive',
       });
     }
@@ -91,8 +91,8 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onOpenChange
   const handleJsonImport = () => {
     if (!jsonInput.trim()) {
       toast({
-        title: 'Error',
-        description: 'Please enter JSON data to import.',
+        title: t('import.error.title'),
+        description: t('import.error.empty'),
         variant: 'destructive',
       });
       return;
@@ -109,14 +109,14 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onOpenChange
         </DialogHeader>
         <div className="space-y-6">
           <div className="space-y-4">
-            <h3 className="text-sm font-medium">Import from File</h3>
+            <h3 className="text-sm font-medium">{t('import.file.title')}</h3>
             <Button 
               variant="outline" 
               className="w-full flex items-center gap-2"
               onClick={handleFileImport}
             >
               <Upload className="h-4 w-4" />
-              Choose JSON File
+              {t('import.file.button')}
             </Button>
           </div>
           
@@ -125,16 +125,16 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onOpenChange
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">Or</span>
+              <span className="bg-background px-2 text-muted-foreground">{t('import.or')}</span>
             </div>
           </div>
 
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="json-input">Paste JSON Data</Label>
+              <Label htmlFor="json-input">{t('import.json.title')}</Label>
               <Textarea
                 id="json-input"
-                placeholder="Paste your budget JSON data here..."
+                placeholder={t('import.json.placeholder')}
                 value={jsonInput}
                 onChange={(e) => setJsonInput(e.target.value)}
                 className="min-h-[200px] font-mono text-sm"
@@ -146,7 +146,7 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onOpenChange
               disabled={!jsonInput.trim()}
             >
               <FileText className="h-4 w-4" />
-              Import JSON Data
+              {t('import.json.button')}
             </Button>
           </div>
         </div>

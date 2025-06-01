@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
 interface LanguageContextProps {
@@ -78,6 +77,17 @@ const translations = {
     'menu.language': 'Switch Language',
     'menu.darkMode': 'Dark Mode',
     'import.error': 'Error importing data. Please check the file format.',
+    'import.file.title': 'Import from File',
+    'import.file.button': 'Choose JSON File',
+    'import.json.title': 'Paste JSON Data',
+    'import.json.placeholder': 'Paste your budget JSON data here...',
+    'import.json.button': 'Import JSON Data',
+    'import.or': 'Or',
+    'import.success.title': 'Import Successful',
+    'import.success.description': 'Imported {count} budget(s) successfully.',
+    'import.error.title': 'Import Error',
+    'import.error.description': 'Failed to import budget data. Please check the JSON format.',
+    'import.error.empty': 'Please enter JSON data to import.',
   },
   es: {
     'app.title': 'Monny',
@@ -143,6 +153,17 @@ const translations = {
     'menu.language': 'Cambiar Idioma',
     'menu.darkMode': 'Modo Oscuro',
     'import.error': 'Error al importar datos. Por favor, verifica el formato del archivo.',
+    'import.file.title': 'Importar desde Archivo',
+    'import.file.button': 'Elegir Archivo JSON',
+    'import.json.title': 'Pegar Datos JSON',
+    'import.json.placeholder': 'Pega aquí los datos JSON de tu presupuesto...',
+    'import.json.button': 'Importar Datos JSON',
+    'import.or': 'O',
+    'import.success.title': 'Importación Exitosa',
+    'import.success.description': 'Se importaron {count} presupuesto(s) exitosamente.',
+    'import.error.title': 'Error de Importación',
+    'import.error.description': 'Error al importar datos del presupuesto. Por favor, verifica el formato JSON.',
+    'import.error.empty': 'Por favor, ingresa datos JSON para importar.',
   },
 };
 

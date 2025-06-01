@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Plus, Calendar, Building2, Plane, FileText, Trash2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -49,23 +48,23 @@ export const BudgetList: React.FC<BudgetListProps> = ({
   };
 
   const calculateTotalExpenses = (budget: Budget) => {
-    return budget.fixedCosts.reduce((sum, cost) => sum + cost.amount, 0);
+    return budget.fixedCosts.reduce((total, cost) => {
+      return total + (cost.amount * (30 / cost.period));
+    }, 0);
   };
 
   const calculateTotalSales = (budget: Budget) => {
-    return budget.products.reduce((sum, product) => 
-      sum + (product.pricePerUnit * product.unitsSold), 0
-    );
+    return budget.products.reduce((total, product) => {
+      const revenue = product.pricePerUnit * product.unitsSold * (30 / product.period);
+      const costs = product.costPerUnit * product.unitsSold * (30 / product.period);
+      return total + (revenue - costs);
+    }, 0);
   };
 
   const calculateTotalProfit = (budget: Budget) => {
-    const totalFixedCosts = calculateTotalExpenses(budget);
-    const totalRevenue = calculateTotalSales(budget);
-    const totalProductCosts = budget.products.reduce((sum, product) => 
-      sum + (product.costPerUnit * product.unitsSold), 0
-    );
-    
-    return totalRevenue - totalFixedCosts - totalProductCosts;
+    const totalExpenses = calculateTotalExpenses(budget);
+    const totalIncome = calculateTotalSales(budget);
+    return totalIncome - totalExpenses;
   };
 
   const handleCardClick = (budget: Budget) => {

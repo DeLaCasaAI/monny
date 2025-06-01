@@ -1,13 +1,52 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import { Header } from '@/components/Header';
+import { BudgetTypeSelector } from '@/components/BudgetTypeSelector';
+import { BudgetWizard } from '@/components/BudgetWizard';
+import { LanguageProvider } from '@/contexts/LanguageContext';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { Budget } from '@/types/budget';
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState<'home' | 'wizard'>('home');
+  const [selectedBudgetType, setSelectedBudgetType] = useState<'business' | 'trip'>('business');
+  const [budgets, setBudgets] = useLocalStorage<Budget[]>('monny-budgets', []);
+
+  const handleBudgetTypeSelect = (type: 'business' | 'trip') => {
+    setSelectedBudgetType(type);
+    setCurrentView('wizard');
+  };
+
+  const handleBudgetComplete = (budget: Budget) => {
+    setBudgets([...budgets, budget]);
+    setCurrentView('home');
+    console.log('Budget saved:', budget);
+  };
+
+  const handleBackToHome = () => {
+    setCurrentView('home');
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <LanguageProvider>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+        <Header />
+        
+        <main className="py-8">
+          {currentView === 'home' && (
+            <BudgetTypeSelector onSelect={handleBudgetTypeSelect} />
+          )}
+          
+          {currentView === 'wizard' && (
+            <BudgetWizard
+              budgetType={selectedBudgetType}
+              onComplete={handleBudgetComplete}
+              onBack={handleBackToHome}
+            />
+          )}
+        </main>
       </div>
-    </div>
+    </LanguageProvider>
   );
 };
 

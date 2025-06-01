@@ -1,0 +1,17 @@
+
+{
+  "name": "Monny - Budget Planning Tool",
+  "short_name": "Monny",
+  "description": "Simple budgeting and planning tool for individuals and small businesses",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

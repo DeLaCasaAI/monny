@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -15,13 +14,13 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 
 interface ImportDialogProps {
-  children: React.ReactNode;
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
+export const ImportDialog: React.FC<ImportDialogProps> = ({ isOpen, onOpenChange }) => {
   const { t } = useLanguage();
   const { toast } = useToast();
-  const [isOpen, setIsOpen] = useState(false);
   const [jsonInput, setJsonInput] = useState('');
 
   const processImportData = (data: string) => {
@@ -58,7 +57,7 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
         description: `Imported ${budgetsToImport.length} budget(s) successfully.`,
       });
       
-      setIsOpen(false);
+      onOpenChange(false);
       setJsonInput('');
       window.location.reload();
     } catch (error) {
@@ -103,10 +102,7 @@ export const ImportDialog: React.FC<ImportDialogProps> = ({ children }) => {
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>{t('menu.import')}</DialogTitle>
